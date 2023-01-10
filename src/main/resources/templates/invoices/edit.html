@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update invoice</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous">
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="footer">
+                <p><a href="/invoice">Back to list of invoices</a></p>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="container mt-3">
+                <h3>Update of the invoice</h3>
+                <form th:method="PUT" th:action="@{/invoice/{id}(id=${invoice.getId()})}" th:object="${invoice}">
+
+                    <label class="control-label" for="date">Date</label>
+                    <input class="form-control" id="date" placeholder="YYYY-MM-DD" type="text" th:field="*{date}"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Date Error</div>
+
+                    <label for="customer" class="form-label">Enter consumer ID: </label>
+                    <select class="form-control" id="customer" name="customerId">
+                        <option th:each="customer : ${allCustomers}" th:value="${customer.getId}"
+                                th:text="${customer.getId}" th:name="customerId"></option>
+                    </select>
+
+                    <label for="item" class="form-label">Enter item ID: </label>
+                    <select class="form-control" id="item" name="itemId">
+                        <option th:each="item : ${allItems}" th:value="${item.getId}"
+                                th:text="${item.getId}" th:name="itemId"></option>
+                    </select>
+
+                    <label for="price" class="form-label">Enter price: </label>
+                    <input type="text" class="form-control" th:field="*{price}" id="price"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price Error</div>
+
+                    <label for="itemCount" class="form-label">Enter count: </label>
+                    <input type="text" class="form-control" th:field="*{itemCount}" id="itemCount"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}">itemCount Error</div>
+
+                    <label for="listOfStages" class="form-label">Enter stage: </label>
+                    <select class="form-control" id="listOfStages" name="stage">
+                        <option th:each="pos : ${T(ua.foxminded.warehouse.models.Stage).values()}"
+                                th:value="${pos.displayValue}" th:text="${pos.displayValue}" th:field="*{stage}"></option>
+                    </select>
+
+                    <br/>
+                    <input type="submit" class="btn btn-light" value="Update!"/>
+                    <input type="reset" class="btn btn-light" value="Reset" />
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var date_input=$('input[name="date"]'); //our date input has the name "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        var options={
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        };
+        date_input.datepicker(options);
+    })
+</script>
+
+</body>
+</html>

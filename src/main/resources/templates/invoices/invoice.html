@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous">
+    <title>invoices</title>
+</head>
+
+<body style="-bs-body-color: #333;">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="/">   GLOBAL WAREHOUSE   </a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="item">Items</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="customer">Customers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="supplier">Suppliers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="invoice">Invoices</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="offer">Offers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="address">Addresses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager">Warehouse Manager</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-sm">
+        <a href="/auth/registration">Registration</a>
+    </div>
+    <div class="col-sm">
+        <a href="/auth/login">Login</a>
+    </div>
+    <div class="col-sm">
+<!--        <form th:action="@{/auth/logout}" th:method="POST">
+            <input type="submit" value="Logout" />
+        </form>-->
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="col-sm">
+        <a href="admin">Admin</a>
+    </div>
+    <div class="col-sm">
+        <span sec:authentication="name">Bob</span>
+        <span sec:authentication="principal.authorities"></span>
+    </div>
+</nav>
+
+<div class="container-md">
+    <br>
+    <h2 class="text-center">Invoices</h2>
+    <br>
+
+    <a href="invoice/new"><button type="button" class="btn btn-primary">Create Invoice</button></a>
+    <br>
+    <br>
+    <div class="InvoiceList">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th> ID </th>
+                <th> Date </th>
+                <th> Customer </th>
+                <th> Item </th>
+                <th> Price </th>
+                <th> Item count </th>
+                <th> Status </th>
+                <th> Update </th>
+                <th> Delete </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${allInvoices.empty}">
+                <td colspan="2"> No Invoice available </td>
+            </tr>
+
+            <tr th:each="invoice : ${allInvoices}">
+                <td><span th:text="${invoice.getId}"> id </span></td>
+                <td><span th:text="${invoice.getDate}"> Date </span></td>
+                <td><span th:text="${invoice.getCustomer.getName}"> Customer </span></td>
+                <td><span th:text="${invoice.getItem.getName}"> Item </span></td>
+                <td><span th:text="${invoice.getPrice}">  Price </span></td>
+                <td><span th:text="${invoice.getItemCount}"> Item count </span></td>
+                <td><span th:text="${invoice.getStage}"> Status </span></td>
+
+                <td><a th:href="@{invoice/{id}/edit(id=${invoice.getId})}">
+                    <button class="btn btn-light">Update</button></a>
+                </td>
+
+                <td>
+                    <form th:method="DELETE" th:action="@{invoice/{id}(id=${invoice.getId()})}">
+                        <button class="btn btn-light">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+</div>
+
+</body>
+</html>

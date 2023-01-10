@@ -1,0 +1,9 @@
+delete from invoice;
+delete from offer;
+delete from supplier;
+delete from customer;
+delete from address;
+delete from item;
+delete from users_roles;
+delete from roles;
+delete from registered_user;

@@ -1,0 +1,9 @@
+drop table invoice;
+drop table offer;
+drop table supplier;
+drop table customer;
+drop table address;
+drop table item;
+drop table users_roles;
+drop table roles;
+drop table registered_user;
